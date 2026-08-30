@@ -160,5 +160,13 @@ int main(int argc, char *argv[]) {
     }
 
     printSummary(my_cache_res_cnt.hits, my_cache_res_cnt.misses, my_cache_res_cnt.evictions);
+
+    for(int i = 0; i < my_cache.S; i++) {
+        free(my_cache_set[i].tag);
+        free(my_cache_set[i].valid);
+        free(my_cache_set[i].cnt);
+    }
+
+    free(my_cache_set);
     return 0;
 }
