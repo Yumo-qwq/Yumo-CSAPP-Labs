@@ -10,9 +10,9 @@ struct cache_data {
 
 // C = E * B * S;
 struct cache_set {
-    unsigned long long tag[100];
-    int valid[100];
-    int cnt[100];
+    unsigned long long tag[1000];
+    int valid[1000];
+    int cnt[1000];
 };
 
 struct cache_res_cnt {
