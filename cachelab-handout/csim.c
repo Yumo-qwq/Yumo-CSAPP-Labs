@@ -1,5 +1,6 @@
 #include "cachelab.h"
 #include <stdio.h>
+#include <stdlib.h>
 #define INT_MAX 2147483647
 
 struct cache_data {
@@ -10,9 +11,9 @@ struct cache_data {
 
 // C = E * B * S;
 struct cache_set {
-    unsigned long long tag[1000];
-    int valid[1000];
-    int cnt[1000];
+    unsigned long long *tag;
+    int *valid;
+    int *cnt;
 };
 
 struct cache_res_cnt {
@@ -40,7 +41,7 @@ int mapping(char c) {
     else return -1;
 }
 
-struct cache_set my_cache_set[1000];
+struct cache_set *my_cache_set;
 struct cache_data my_cache;
 struct cache_res_cnt my_cache_res_cnt;
 
@@ -87,6 +88,18 @@ int main(int argc, char *argv[]) {
     my_cache.S = (1 << _stoi(argv[2]));
     my_cache.E = _stoi(argv[4]);
     my_cache.B = (1 << _stoi(argv[6]));
+
+    my_cache_set = (struct cache_set *)malloc(sizeof(struct cache_set) * my_cache.S);
+    for(int i = 0; i < my_cache.S; i++) {
+        my_cache_set[i].tag = (unsigned long long *)malloc(sizeof(unsigned long long) * my_cache.E);
+        my_cache_set[i].valid = (int *)malloc(sizeof(int) * my_cache.E);
+        my_cache_set[i].cnt = (int *)malloc(sizeof(int) * my_cache.E);
+        for(int j = 0; j < my_cache.E; j++) {
+            my_cache_set[i].valid[j] = 0;
+            my_cache_set[i].tag[j] = 0;
+            my_cache_set[i].cnt[j] = 0;
+        }
+    }
 
     FILE *fp = fopen(argv[8], "r");
 
